@@ -6,6 +6,7 @@ require('dotenv').config();
 // const DATABASE_URL = 'postgres://postgres@localhost:5432';
 
 // below: throw a !== instead of === if you want to connect to ElephantSQL database (instead of local)
+console.log('database url', process.env.NODE_ENV);
 const DATABASE_URL = process.env.NODE_ENV !== 'production' ? process.env.DATABASE_PROD : process.env.DATABASE_DEV
 
 const { Sequelize, DataTypes } = require('sequelize');

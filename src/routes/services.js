@@ -34,6 +34,7 @@ async function create(request, response) {
 }
 
 async function getAll(request, response) {
+  console.log('got here!')
   const allServices = await data.services.findAll({
     order: [
       // Will escape title and validate DESC against a list of valid direction parameters
