@@ -23,8 +23,6 @@ let sequelize = new Sequelize(DATABASE_URL, {
   //     rejectUnauthorized: false,
   //   }
   // }
-}).catch(err => {
-  console.log('connecting to sequelize', err);
 });
 
 const user = userSchema(sequelize, DataTypes);
