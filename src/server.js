@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log('server file, we have arrived')
 
 app.use(servicesRoutes);
 app.use(userRoutes);
