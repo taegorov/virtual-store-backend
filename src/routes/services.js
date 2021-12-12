@@ -59,13 +59,16 @@ async function update(request, response) {
   try {
     const servicesId = request.params.servicesId;
     const servicesObject = request.body;
+    // console.log('🎰 services object', servicesObject)
     const servicesData = await data.services.findOne({ where: { id: servicesId } });
-    console.log('services data', servicesData)
+    // console.log('services data', servicesData)
     if (!servicesData) {
       throw 'could not find service'
     }
-    const res = await servicesData.update(servicesObject);
+    // const res = await data.services.update(servicesObject, { where: { id: servicesId } });
+    const res = await servicesData.update(servicesObject, { where: { id: servicesId } });
 
+    //TODO: if res === [0], send an ERROR, since it is currently sending as a success because [0] is truthy
     response.status(200).send({ success: res, message: res ? 'Updated!' : 'Error Updating!' });
 
   } catch (error) {
