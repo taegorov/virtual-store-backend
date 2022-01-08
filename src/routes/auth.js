@@ -18,9 +18,9 @@ authRouter.post('/signup', async (req, res, next) => {
       user: userRecord,
       token: userRecord.token
     };
-    res.status(201).json(output);
+    // res.status(201).json(output);
+    res.status(200).send({ success: true, message: `User Created: ${output.user.username}`, data: output });
   } catch (e) {
-
     next(e.message)
   }
 });

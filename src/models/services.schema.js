@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     freelancer: {
       type: DataTypes.INTEGER,
-      required: false,
+      required: true,
+      // defaultValue: 000,
     },
     title: {
       type: DataTypes.STRING,
