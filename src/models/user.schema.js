@@ -62,7 +62,9 @@ module.exports = (sequelize, DataTypes) => {
   model.authenticateBearer = async function (token) {
     try {
       const parsedToken = jwt.verify(token, SECRET);
-      const user = this.findOne({ username: parsedToken.username })
+      console.log('parsed token 🍊', parsedToken)
+      const user = await this.findOne({ where: { username: parsedToken.username } })
+      console.log('user ☔️', user)
       if (user) { return user; }
       throw new Error("User Not Found");
     } catch (e) {
