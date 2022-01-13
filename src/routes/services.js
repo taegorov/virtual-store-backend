@@ -2,18 +2,19 @@
 
 const express = require('express');
 const { services } = require('../models/index.js');
+const authenticateBearer = require('../auth/middleware/bearer')
 
 const data = require('../models/index.js');
 const router = express.Router();
 
 
 // === === routers === === //
-router.post('/services', create);
+// router.post('/services', create);
+router.post('/services', authenticateBearer, create)
 router.get('/services', getAll);
 router.get('/services/:servicesId', getOne);
-router.put('/services/:servicesId', update);
-router.delete('/services/:servicesId', remove);
-
+router.put('/services/:servicesId', authenticateBearer, update);
+router.delete('/services/:servicesId', authenticateBearer, remove);
 
 
 // === === router functions === === //
@@ -27,8 +28,13 @@ router.delete('/services/:servicesId', remove);
 // }
 
 async function create(request, response) {
+  // console.log('request body 🍕', request.body)
+  // console.log('request user 🥩', request.user)
+
   const servicesObject = request.body;
+  servicesObject.freelancer = request.user.dataValues.id
   const servicesData = await data.services.create(servicesObject);
+  console.log('SERVICES DATA 🥐', servicesData)
 
   response.status(200).send({ success: servicesData, message: servicesData ? 'Created!' : 'Error Creating!' });
 }

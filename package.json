@@ -14,15 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CullenSharp/auth-api.git"
+    "url": "git+https://github.com/taegorov/virtual-store-backend.git"
   },
   "keywords": [],
   "author": "Cullen Sharp",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/CullenSharp/auth-api/issues"
-  },
-  "homepage": "https://github.com/CullenSharp/auth-api#readme",
+  "homepage": "https://github.com/taegorov/virtual-store-backend#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "base-64": "^1.0.0",
