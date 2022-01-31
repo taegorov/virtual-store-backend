@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   let model = sequelize.define('Users', {
     username: {
       type: DataTypes.STRING,
-      required: true,
+      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
-      required: true,
+      allowNull: false,
     },
     role: {
       type: DataTypes.ENUM('user', 'freelancer'),

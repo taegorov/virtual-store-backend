@@ -6,6 +6,8 @@ const cors = require('cors');
 const servicesRoutes = require('./routes/services.js')
 const userRoutes = require('./routes/user.js');
 const authRoutes = require('./routes/auth.js');
+const ratingRoutes = require('./routes/rating.js');
+
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use((req, res, next) => {
 app.use(servicesRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
+app.use(ratingRoutes);
+
 
 // app.post('/user', (req, res) => {
 //   res.send('got to post')

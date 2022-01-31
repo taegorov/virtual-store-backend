@@ -6,24 +6,24 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Services', {
     name: {
       type: DataTypes.STRING,
-      required: true,
+      allowNull: false,
     },
     freelancer: {
       type: DataTypes.INTEGER,
-      required: true,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
-      required: false,
+      allowNull: true,
     },
     category: {
       type: DataTypes.STRING,
-      required: true,
+      allowNull: false,
       defaultValue: 'Misc',
     },
     price: {
       type: DataTypes.INTEGER,
-      required: true,
+      allowNull: false,
     },
     details: {
       type: DataTypes.STRING,
