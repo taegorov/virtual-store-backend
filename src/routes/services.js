@@ -1,10 +1,11 @@
 'use strict';
 
 const express = require('express');
-const { services } = require('../models/index.js');
+const { services, db } = require('../models/index.js');
 const authenticateBearer = require('../auth/middleware/bearer')
 
 const data = require('../models/index.js');
+const { QueryTypes } = require('sequelize');
 const router = express.Router();
 
 
@@ -41,11 +42,28 @@ async function create(request, response) {
 
 async function getAll(request, response) {
   console.log('got here!')
-  const allServices = await data.services.findAll({
-    order: [
-      // Will escape title and validate DESC against a list of valid direction parameters
-      ['id', 'ASC'],]
-  });
+  // const allServices = await data.services.findAll({
+  //   order: [
+  //     // Will escape title and validate DESC against a list of valid direction parameters
+  //     ['id', 'ASC'],]
+  // });
+
+  // const averageRatings = await ratings.findAll({
+  //   where: { service_id: servicesId },
+  //   attributes: [
+  //     [Sequelize.fn('AVG', Sequelize.col('rating')), 'avgRating'],
+  //   ],
+  // })
+  // console.log(averageRatings, 'average ratings')
+
+  const allServices = await db.query(`
+    SELECT s.*, AVG(r.rating) as "averageRating", COUNT(r.rating) as "totalRatings"
+    FROM "Services" AS s
+    LEFT JOIN "Ratings" as r
+    ON r.service_id = s.id
+    GROUP BY s.id;
+  `,
+    { type: QueryTypes.SELECT })
 
   response.status(200).send(allServices)
 }

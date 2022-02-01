@@ -31,6 +31,20 @@ const services = servicesSchema(sequelize, DataTypes);
 const ratings = ratingsSchema(sequelize, DataTypes);
 
 
+// WRITE THIS OUT IN SQL, then refactor into sequelize
+// do we need force: true to get sync to run? look up what this does
+// sync({force: true})
+
+user.hasMany(services, { foreignKey: 'freelancer', sourceKey: 'id' });
+services.belongsTo(user, { foreignKey: 'freelancer', targetKey: 'id' });
+
+services.hasMany(ratings, { foreignKey: 'service_id', sourceKey: 'id' });
+ratings.belongsTo(services, { foreignKey: 'service_id', targetKey: 'id' });
+
+user.hasMany(ratings, { foreignKey: 'user_id', sourceKey: 'id' });
+ratings.belongsTo(user, { foreignKey: 'user_id', targetKey: 'id' });
+
+
 module.exports = {
   db: sequelize,
   user: user,
