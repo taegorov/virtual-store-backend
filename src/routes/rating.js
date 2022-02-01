@@ -3,7 +3,7 @@
 const express = require('express');
 const { ratings } = require('../models/index.js');
 const authenticateBearer = require('../auth/middleware/bearer')
-
+const { Sequelize } = require('sequelize');
 const router = express.Router();
 
 
@@ -16,7 +16,7 @@ async function update(request, response) {
     const { servicesId } = request.params;
     const { rating } = request.body;
     console.log('rating is: ', rating);
-    const ratingData = await ratings.findOne({ where: { id: servicesId, user_id: request.user.id } });
+    const ratingData = await ratings.findOne({ where: { service_id: servicesId, user_id: request.user.id } });
     console.log('rating data is: ', ratingData);
 
     let res;
@@ -31,9 +31,18 @@ async function update(request, response) {
       res = await ratings.update({ rating }, { where: { user_id: request.user.id, service_id: servicesId } });
       console.log('RES FOR RATING .UPDATE IS: ', res)
     }
-    // const res = await ratingData.update(rating, { where: { id: ratingData.id } });
 
-    response.status(200).send({ success: res, message: res ? 'Rating Added!' : 'Error Adding Rating!' });
+    const averageRatings = await ratings.findAll({
+      where: { service_id: servicesId },
+      attributes: [
+        [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating'],
+        [Sequelize.fn('count', Sequelize.col('rating')), 'totalRatings'],
+      ],
+    })
+
+    console.log(averageRatings, 'average ratings')
+
+    response.status(200).send({ success: res, data: averageRatings, message: res ? 'Rating Added!' : 'Error Adding Rating!' });
 
   } catch (error) {
     console.log(error)
