@@ -70,14 +70,32 @@ async function getAll(request, response) {
 
 async function getOne(request, response) {
   const servicesId = request.params.servicesId;
-  const singleServices = await data.services.findOne({
-    where: {
-      id: servicesId,
-    }
-  });
+  const singleServices = await db.query(`
+    SELECT s.*, AVG(r.rating) as "averageRating", COUNT(r.rating) as "totalRatings"
+    FROM "Services" AS s
+    LEFT JOIN "Ratings" as r
+    ON r.service_id = s.id
+    WHERE s.id = ?
+    GROUP BY s.id;
+  `, {
+    replacements: [servicesId],
+  })
 
-  response.status(200).send(singleServices);
+  console.log('single service is: ', singleServices[0][0])
+  response.status(200).send(singleServices[0][0]);
 }
+
+// async function getOne(request, response) {
+//   const servicesId = request.params.servicesId;
+//   const singleServices = await data.services.findOne({
+//     where: {
+//       id: servicesId,
+//     }
+//   });
+
+//   response.status(200).send(singleServices);
+// }
+
 
 async function update(request, response) {
   try {
